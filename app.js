@@ -2,7 +2,7 @@ const express = require('express');
 
 const bodyParser = require('body-parser');
 
-const path = require('path')
+const path = require('path');
 
 
 //-------------------------------------------Routes---------------------------------------------------------------------
