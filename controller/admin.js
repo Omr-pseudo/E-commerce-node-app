@@ -7,14 +7,19 @@ exports.getAddProducts = (req, res, next) => {
 
 exports.getAdminProducts = (req, res, next) => {
 
-    Product.fetchAll( products => {
+    Product.fetchAll().then( ([rows, fieldData]) => {
 
-        res.render('admin/products', { prods: products,
-        myTitle: 'Admin Products', 
-         path:"/admin/products"
-        });
-        
+        res.render('admin/products', { prods: rows,
+            myTitle: 'Admin Products', 
+             path:"/admin/products"
+            });
+
+    })
+    .catch( err => {
+        console.log(err);
     });
+
+    
 }
 
 exports.getEditProducts = (req, res, next) => {
@@ -52,9 +57,13 @@ exports.postAddProducts = (req, res, next) => {
 
     const product = new Product(null, title, imageURL, description, price);
 
-    product.save();
+    product.save()
+    .then( () => {
+        res.redirect('/');
+    })
+    .catch(err=> console.log(err));
 
-    res.redirect('/');
+    
 }
 
 
