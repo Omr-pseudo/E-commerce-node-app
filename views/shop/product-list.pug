@@ -1,0 +1,28 @@
+extends ../layouts/main-layout.pug
+
+block content
+            main
+            if prods.length > 0
+                div(class="mx-28 my-12")
+                    div(class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 place-content-center gap-24")
+                        each product in prods
+                            article(class="bg-gray-100 relative box-content my-4 mx-4 h-56 w-48 lg:h-72 lg:w-64 rounded-xl shadow-xl")
+                                header(class="absolute")
+                                    h1(class="mx-2 text-xl font-mono font-bold") #{product.title}
+                                div(class="absolute")
+
+                                  - var url = product.imageURL
+                                  - var title = product.title
+                                    
+                                    img(class="w-2/3 h-2/3 lg:w-3/4 lg:h-3/4 rounded-md shadow-lg mx-8 my-10" src= url, alt= title)
+                                div(class="absolute mx-4 my-36 lg:my-48")
+                                    h2(class="text-md font-mono font-bold") $#{product.price}
+                                    p(class="text-xs md:text-sm font-light font-mono tracking-normal") #{product.description}
+                                div(class="flex justify-between")
+                                  
+                                  - var pid = product.id
+
+                                    a(href="/products/" + pid  class="bg-gray-700 h-8 w-16 lg:h-12 lg:w-24 mt-64 lg:mt-80 rounded-md drop-shadow-md text-center py-2 lg:rounded-xl lg:drop-shadow-xl font-medium tracking-wide text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-gray-700 hover:ring-2 hover:ring-gray-400") Details
+                                    include ../layouts/cat-form.pug
+            else
+                h1 No Products

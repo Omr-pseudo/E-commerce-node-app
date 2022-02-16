@@ -1,0 +1,19 @@
+extends ../layouts/main-layout.pug
+
+block content
+        main(class="w-screen h-screen flex justify-center")
+            article(class="bg-gray-100 relative box-content my-12 mx-4 h-56 w-48 lg:h-72 lg:w-64 rounded-xl shadow-2xl")
+                                header(class="absolute")
+                                    h1(class="mx-2 text-xl font-mono font-bold") #{product.title}
+                                div(class="absolute")
+
+                                  - var url = product.imageURL
+                                  - var title = product.title
+                                  - console.log(product.id)
+                                    
+                                    img(class="w-2/3 h-2/3 lg:w-3/4 lg:h-3/4 rounded-md shadow-lg mx-8 my-10" src= url, alt= title)
+                                div(class="absolute mx-4 my-36 lg:my-48")
+                                    h2(class="text-md font-mono font-bold") $#{product.price}
+                                    p(class="text-xs md:text-sm font-light font-mono tracking-normal") #{product.description}
+                                div(class="flex justify-around")
+                                    include ../layouts/cat-form.pug

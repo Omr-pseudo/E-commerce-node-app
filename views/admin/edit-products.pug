@@ -1,0 +1,66 @@
+extends ../layouts/main-layout.pug
+
+block content
+    if editing
+        -   var id    = product.id;
+        -   var title = product.title;
+        -   var url = product.imageUrl;
+        -   var price = product.price;
+        -   var desc =  product.description;
+       
+        main(class="flex flex-col items-center mt-20")
+                    div(class="block box-content bg-gray-50 h-80 xl:h-96 w-80 xl:w-80 shadow-xl rounded-xl")
+                        form(action="/admin/edit-products" method="POST")
+                            div(class="flex flex-col my-16 items-center content-end")
+                                div(class="flex flex-col gap-6")
+                                    
+                                    div(class="flex flex-row items-center gap-6")
+                                                    label(class="pl-4 text-mono font-medium" for="title") Title
+                                                    input(type="hidden" name = "id" value= id)
+                                                    input(class="ring-2 ring-gray-300 rounded-md pl-4 text-mono font-medium" placeholder="type here..." type="text" name="title" id="title" value= title)
+                                                    
+                                    div(class="flex flex-row items-center gap-6")
+                                                    label(class="pl-4 text-mono font-medium" for="imageURL") Image
+                                                    input(class="ring-2 ring-gray-300 rounded-md pl-4 -ml-3 text-mono font-medium" placeholder="here..." type="text" name="imageURL" id="imageURL" value= url)
+                                    
+                                    div(class="flex flex-row items-center gap-6")
+                                                    label(class="pl-4 text-mono font-medium" for="price") Price
+                                                    input(class="ring-2 ring-gray-300 rounded-md pl-4 =ml-1 text-mono font-medium" placeholder="price..." type="number" name="price" id="price" value= price)
+                                    
+                                    div(class="flex flex-col gap-6")
+                                                    label(class="pl-4 text-mono font-medium" for="description") Description
+                                                    textarea(class="ring-2 ring-gray-300 rounded-md pl-4 text-mono font-medium" placeholder="type here..." rows="2" name="description" id="description") #{desc}
+                                    
+
+                                    button(class="font-mono font-semibold" type="submit")
+                                        span(class="block box-content rounded-md bg-gray-200 shadow-lg h-ful w-full px-1 hover:scale-105 hover:bg-gray-700 hover:text-slate-50 hover:shadow-xl") UPDATE
+    
+    
+    
+    
+    else 
+        main(class="flex flex-col items-center mt-20")
+                    div(class="block box-content bg-gray-50 h-80 xl:h-96 w-80 xl:w-80 shadow-xl rounded-xl")
+                        form(action="/admin/add-products" method="POST")
+                            div(class="flex flex-col my-16 items-center content-end")
+                                div(class="flex flex-col gap-6")
+                                    
+                                    div(class="flex flex-row items-center gap-6")
+                                                    label(class="pl-4 text-mono font-medium" for="title") Title
+                                                    input(class="ring-2 ring-gray-300 rounded-md pl-4 text-mono font-medium" placeholder="type here..." type="text" name="title" id="title")
+                                                    
+                                    div(class="flex flex-row items-center gap-6")
+                                                    label(class="pl-4 text-mono font-medium" for="imageURL") Image
+                                                    input(class="ring-2 ring-gray-300 rounded-md pl-4 -ml-3 text-mono font-medium" placeholder="here..." type="text" name="imageURL" id="imageURL")
+                                    
+                                    div(class="flex flex-row items-center gap-6")
+                                                    label(class="pl-4 text-mono font-medium" for="price") Price
+                                                    input(class="ring-2 ring-gray-300 rounded-md pl-4 =ml-1 text-mono font-medium" placeholder="price..." type="number" name="price" id="price")
+                                    
+                                    div(class="flex flex-col gap-6")
+                                                    label(class="pl-4 text-mono font-medium" for="description") Description
+                                                    textarea(class="ring-2 ring-gray-300 rounded-md pl-4 text-mono font-medium" placeholder="type here..." rows="2" name="description" id="description")
+                                    
+
+                                    button(class="font-mono font-semibold" type="submit")
+                                        span(class="block box-content rounded-md bg-gray-200 shadow-lg h-ful w-full px-1 hover:scale-105 hover:bg-gray-700 hover:text-slate-50 hover:shadow-xl") ADD
