@@ -10,7 +10,6 @@ const path = require('path')
 const adminRoutes = require('./routes/admin');
 
 const shopRoutes = require('./routes/shop');
-console.log("hello world");
 //--------------------------------------Controllers---------------------------------------------------------------------
 
 const errorController = require('./controller/error');
