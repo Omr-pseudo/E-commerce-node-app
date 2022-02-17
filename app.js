@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const path = require('path');
 
+const sequelize = require('./utilities/database');
 
 //-------------------------------------------Routes---------------------------------------------------------------------
 
@@ -40,4 +41,12 @@ app.use(errorController.get404);
 
 //-------------------------------------App listening to Port------------------------------------------------------------
 
-app.listen(3000);
+sequelize.sync()
+.then( result => {
+    app.listen(3000);
+})
+.catch( err => {
+    console.log(err);
+})
+
+
