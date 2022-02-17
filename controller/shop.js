@@ -4,7 +4,7 @@ const Cart = require('../model/cart');
 
 exports.getIndex = (req, res, next) => {
     
-    Product.fetchAll().then( ([rows, fieldData]) => {
+    Product.findAll().then( rows => {
 
         res.render('shop/index', { prods: rows,
             myTitle: 'Shop', 
@@ -21,8 +21,8 @@ exports.getIndex = (req, res, next) => {
 
 exports.getShopProducts = (req, res, next) => {
 
-    Product.fetchAll()
-    .then( ([rows, fieldData]) => {
+    Product.findAll()
+    .then( rows => {
         res.render('shop/product-list', { prods: rows,
             myTitle: 'Products', 
              path:"/products"
@@ -38,17 +38,18 @@ exports.getProductID = (req, res, next) => {
 
     const productID = req.params.productId;
 
-    Product.findById(productID).then( ([product]) => {
+    
+    Product.findByPk(productID).then(product => {
+    
         res.render('shop/product-detail', {
-            product: product[0],
+            product: product,
             myTitle: product.title,
             path: "/products"
-        });
-    })
-    .catch( err => {
+    }).catch( err => {
         console.log(err);
     });
     
+});
     
 }
 
