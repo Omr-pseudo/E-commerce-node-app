@@ -57,18 +57,65 @@ exports.getProductID = (req, res, next) => {
 exports.postCart = (req, res, next) => {
 
     const productID = req.body.productID;
-    
+   
+    let fetchedCart;
 
-    Product.findById(productID, product => {
-        Cart.addProduct(productID, product.price);
+    let newQuantity = 1;
+
+    req.user
+    .getCart().then( cart => {
+        fetchedCart = cart;
+        return cart.getProducts({where: {id: productID}}); 
+    }).then( products => {
+        let product;
+
+        
+        if(products.length > 0){
+            product = products[0];
+
+        }
+
+        if(product){
+            const oldQuantity = product.cartItems.quantity;
+            newQuantity = oldQuantity + 1;
+
+            return product;
+        }
+
+        return product.findByPk(productID);
+    })
+    .then( data => {
+        return fetchedCart.addProduct(product, { through: {quantity: newQuantity}})
+    })
+    .then( () => {
+
+        res.redirect("/cart");
+    })
+    .catch( err => {
+        console.log(err);
     });
 
-    res.redirect("/cart");
+    
 }
 
 exports.getCart = (req, res, next) => {
 
-    res.render('shop/cart', {myTitle:"Your Cart", path: "/cart"});
+    req.user
+    .getCart()
+    .then( cart => {
+        return cart
+        .getProducts()
+        .then(products => {
+            res.render('shop/cart', 
+            {myTitle:"Your Cart", 
+            path: "/cart",
+            products: products 
+        });
+        })
+        .catch( err => {
+            console.log(err);
+        });
+    });
 }
 
 

@@ -7,7 +7,8 @@ exports.getAddProducts = (req, res, next) => {
 
 exports.getAdminProducts = (req, res, next) => {
 
-    Product.findAll().then( rows => {
+    req.user.getProducts()
+    .then( rows => {
 
         res.render('admin/products', { prods: rows,
             myTitle: 'Admin Products', 
@@ -35,7 +36,8 @@ exports.getEditProducts = (req, res, next) => {
 
     
 
-    Product.findByPk(product_id).then(product => {
+    req.user.getProducts({where:{id: product_id}})
+    .then(product => {
     
         res.render("admin/edit-products", {myTitle:"Edit Products", 
         path:"/admin/edit-products",
