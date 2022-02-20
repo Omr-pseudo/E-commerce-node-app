@@ -1,0 +1,80 @@
+[1mdiff --git a/app.js b/app.js[m
+[1mindex 61c121a..4e870ab 100644[m
+[1m--- a/app.js[m
+[1m+++ b/app.js[m
+[36m@@ -5,6 +5,11 @@[m [mconst bodyParser = require('body-parser');[m
+ const path = require('path');[m
+ [m
+ const sequelize = require('./utilities/database');[m
+[32m+[m[32m//------------------------------------------Models----------------------------------------------------------------------[m
+[32m+[m
+[32m+[m[32mconst User = require('./model/user');[m
+[32m+[m
+[32m+[m[32mconst Product = require('./model/product');[m
+ [m
+ //-------------------------------------------Routes---------------------------------------------------------------------[m
+ [m
+[36m@@ -32,6 +37,19 @@[m [mapp.use(bodyParser.urlencoded({extended: false}));[m
+ [m
+ app.use(express.static(path.join(__dirname,'public')));[m
+ [m
+[32m+[m
+[32m+[m[32mapp.use((req,res,next) => {[m
+[32m+[m
+[32m+[m[32m    User.findByPk(1).then( user => {[m
+[32m+[m[32m        req.user = user;[m
+[32m+[m[32m        next();[m
+[32m+[m[32m    })[m
+[32m+[m[32m    .catch( err => {[m
+[32m+[m[32m        console.log(err);[m
+[32m+[m[32m    });[m
+[32m+[m[32m})[m
+[32m+[m
+[32m+[m
+ app.use('/admin', adminRoutes);[m
+ app.use(shopRoutes);[m
+ [m
+[36m@@ -41,7 +59,22 @@[m [mapp.use(errorController.get404);[m
+ [m
+ //-------------------------------------App listening to Port------------------------------------------------------------[m
+ [m
+[31m-sequelize.sync()[m
+[32m+[m[32mProduct.belongsTo(User, { constraints: true, onDelete: 'CASCADE'});[m
+[32m+[m
+[32m+[m[32mUser.hasMany(Product);[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32msequelize.sync({ force: true })[m
+[32m+[m[32m.then( result => {[m
+[32m+[m[32m    return User.findByPk(1);[m
+[32m+[m[32m})[m
+[32m+[m[32m.then( user => {[m
+[32m+[m[32m    if(!user){[m
+[32m+[m[32m        return User.create({name:"Omer Ali", email: "test@test.com"});[m
+[32m+[m[32m    }[m
+[32m+[m[32m    return user[m
+[32m+[m[32m})[m
+ .then( result => {[m
+     app.listen(3000);[m
+ })[m
+[1mdiff --git a/controller/admin.js b/controller/admin.js[m
+[1mindex 465f817..7f5455c 100644[m
+[1m--- a/controller/admin.js[m
+[1m+++ b/controller/admin.js[m
+[36m@@ -57,13 +57,12 @@[m [mexports.postAddProducts = (req, res, next) => {[m
+     const description = req.body.description;[m
+ [m
+ [m
+[31m-    Product.create({[m
+[32m+[m[32m    req.user.createProduct({[m
+         title:title,[m
+         price: price,[m
+         imageUrl: imageURL,[m
+         description:description[m
+[31m-    })[m
+[31m-    .then( result => {[m
+[32m+[m[32m    }).then( result => {[m
+         res.redirect('/admin/products');[m
+         console.log(" [CREATED]: PRODUCT")[m
+     })[m
