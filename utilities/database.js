@@ -6,9 +6,9 @@ let _db;
 
 const mongodbConnection = callback => {
 
-    //MongoDb client url: insert username and password of your Db connection
+    //MongoDb client url: insert username and password and database of your Db connection
 
-    MongoClient.connect('mongodb+srv://Admin:myadminmongodb@cluster0.t0nch.mongodb.net/myShop?retryWrites=true&w=majority')
+    MongoClient.connect('mongodb+srv://<username>:<password>@cluster0.t0nch.mongodb.net/<database>?retryWrites=true&w=majority')
     .then(client =>{
         console.log('MongoDb Client connected !!!');
         
