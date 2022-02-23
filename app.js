@@ -6,11 +6,13 @@ const path = require('path');
 
 const {mongodbConnection} = require('./utilities/database');
 
+const User = require('./model/user');
+
 //-------------------------------------------Routes---------------------------------------------------------------------
 
 const adminRoutes = require('./routes/admin');
 
-//const shopRoutes = require('./routes/shop');
+const shopRoutes = require('./routes/shop');
 //--------------------------------------Controllers---------------------------------------------------------------------
 
 const errorController = require('./controller/error');
@@ -34,21 +36,20 @@ app.use(express.static(path.join(__dirname,'public')));
 
 
 app.use((req,res,next) => {
-/*
-    User.findByPk(1).then( user => {
-        req.user = user;
+
+    User.findById('6216288638ca06c62d717c4f').then( user => {
+        req.user = new User(user.name, user.email, user.cart, user._id);
         next();
     })
     .catch( err => {
         console.log(err);
     });
-    */
-   next();
+    
 })
 
 
 app.use('/admin', adminRoutes);
-//app.use(shopRoutes);
+app.use(shopRoutes);
 
 app.use(errorController.get404);
 

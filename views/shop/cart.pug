@@ -1,17 +1,18 @@
 extends ../layouts/main-layout.pug
 
 block content
-        main 
+    main
         if products.length > 0
-                ul(class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 place-content-center gap-24")
-                    each product in products 
-                        li(class="bg-gray-100 relative box-content my-4 mx-4 h-56 w-48 lg:h-72 lg:w-64 rounded-xl shadow-xl")
-                            h1(class="mx-2 text-xl font-mono font-bold") #{product.title}
-                            h2(class="mx-2 text-xl font-mono font-bold") #{product.cartItem.quantity}
+            div(class="w-screen my-4")
+                ul(class="flex flex-col items-center gap-1")
+                    each product in products
+                        -   var product_id = product._id 
+                        li(class="flex flex-row justify-between bg-gray-50 box-content my-4 mx-4 h-20 w-9/12 rounded-xl shadow-xl")
+                            h1(class="mx-6 py-6 text-xl lg:text-2xl font-mono font-bold") #{product.title}
+                            h2(class="mx-6 py-6 text-xl lg:text-2xl font-mono font-bold") #{product.quantity}
                             form(action="/cart-delete-item" method="POST")
-                            -   var product_id = product.id
                                 input(type="hidden" value= product_id name="productId")
-                                button(class="bg-gray-700 h-8 w-16 lg:h-12 lg:w-24 mt-64 lg:mt-80 rounded-md drop-shadow-md lg:rounded-xl lg:drop-shadow-xl font-medium tracking-normal text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-gray-700 hover:ring-2 hover:ring-gray-400" type="submit") Delete
+                                button(class="bg-red-500 my-4 mx-6 h-8 w-16 lg:h-12 lg:w-24 rounded-md drop-shadow-md lg:rounded-xl lg:drop-shadow-xl font-medium tracking-normal text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-red-700 hover:ring-2 hover:ring-red-400" type="submit") Delete
                 
         else   
             h1 No Products in Cart!

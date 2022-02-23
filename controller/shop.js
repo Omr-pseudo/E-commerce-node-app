@@ -1,5 +1,5 @@
 const Product = require('../model/product'); 
-const Cart = require('../model/cart');
+
 
 
 exports.getIndex = (req, res, next) => {
@@ -58,40 +58,16 @@ exports.postCart = (req, res, next) => {
 
     const productID = req.body.productID;
    
-    let fetchedCart;
+    Product.findById(productID).then( product => {
 
-    let newQuantity = 1;
+        return req.user.addToCart(product);
 
-    req.user
-    .getCart().then( cart => {
-        fetchedCart = cart;
-        return cart.getProducts({where: {id: productID}}); 
-    }).then( products => {
-        let product;
-
+    }).then( result => {
+        console.log(result);
+        res.redirect('/cart');
         
-        if(products.length > 0){
-            product = products[0];
 
-        }
-
-        if(product){
-            const oldQuantity = product.cartItems.quantity;
-            newQuantity = oldQuantity + 1;
-
-            return product;
-        }
-
-        return product.findByPk(productID);
-    })
-    .then( data => {
-        return fetchedCart.addProduct(product, { through: {quantity: newQuantity}})
-    })
-    .then( () => {
-
-        res.redirect("/cart");
-    })
-    .catch( err => {
+    }).catch( err => {
         console.log(err);
     });
 
@@ -102,22 +78,36 @@ exports.getCart = (req, res, next) => {
 
     req.user
     .getCart()
-    .then( cart => {
-        return cart
-        .getProducts()
-        .then(products => {
+    .then( products => {
             res.render('shop/cart', 
             {myTitle:"Your Cart", 
             path: "/cart",
             products: products 
-        });
+        
         })
+    })
         .catch( err => {
             console.log(err);
         });
-    });
+    
 }
 
+exports.postDeleteFromCart = (req, res, next) => {
+    
+    const prod_id = req.body.productId;
+
+    req.user.deleteFromCart(prod_id)
+
+    .then( result => {
+
+        console.log( req.body.productId, "Deleted !!");
+        res.redirect("/cart");
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
+}
 
 exports.getCheckout = (req, res, next) => {
 
