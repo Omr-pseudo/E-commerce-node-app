@@ -5,13 +5,14 @@ const mongodb = require('mongodb');
 
 class Product {
 
-  constructor(title, price, imageURL, description, id){
+  constructor(title, price, imageURL, description, id, userId){
 
     this.title = title,
     this.price = price,
     this.imageURL = imageURL,
     this.description = description
     this._id = id? new mongodb.ObjectId(id): null;
+    this.userId = userId;
   }
 
   save(){
