@@ -2,17 +2,21 @@ extends ../layouts/main-layout.pug
 
 block content
         main(class="w-screen h-screen flex justify-center")
-            article(class="bg-gray-100 relative box-content my-12 mx-4 h-56 w-48 lg:h-72 lg:w-64 rounded-xl shadow-2xl")
+            article(class="flex flex-col items-center bg-gray-100 relative box-content my-12 mx-4 h-full w-full rounded-xl shadow-2xl")
                                 header(class="absolute")
                                     h1(class="mx-2 text-xl font-mono font-bold") #{product.title}
                                 div(class="absolute")
 
                                   - var url = product.imageURL
                                   - var title = product.title
+                                  - var productID = product._id  
+                                                                                    
                                     
-                                    img(class="w-2/3 h-2/3 lg:w-3/4 lg:h-3/4 rounded-md shadow-lg mx-8 my-10" src= url, alt= title)
-                                div(class="absolute mx-4 my-36 lg:my-48")
-                                    h2(class="text-md font-mono font-bold") $#{product.price}
-                                    p(class="text-xs md:text-sm font-light font-mono tracking-normal") #{product.description}
-                                div(class="flex justify-around")
-                                    include ../layouts/cat-form.pug
+                                    img(class="w-2/3 h-full lg:w-3/4 lg:h-3/4 rounded-md shadow-lg mx-8 my-10" src= url, alt= title)
+                                div(class="absolute mx-4 mt-36 lg:mt-48")
+                                    h2(class="text-2xl font-mono font-bold") $#{product.price}
+                                    p(class="text-xs tracking-tight md:text-sm font-light font-mono lg:tracking-normal") #{product.description}
+                                    div(class="flex justify-around")
+                                                            form(action="/cart" method="POST")
+                                                                                    input(type="hidden" name="productID" value=productID)
+                                                                                    button(class="bg-gray-700 h-8 w-16 lg:h-12 lg:w-24 mt-8 rounded-md drop-shadow-md lg:rounded-xl lg:drop-shadow-xl font-medium tracking-tight text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-gray-700 hover:ring-2 hover:ring-gray-400" type="submit") Add to Cart
