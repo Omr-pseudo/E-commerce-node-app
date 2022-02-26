@@ -58,7 +58,7 @@ app.use(errorController.get404);
 
 //-------------------------------------App listening to Port------------------------------------------------------------
 
-mongoose.connect('mongodb+srv://Admin:myadminmongodb@cluster0.t0nch.mongodb.net/myShop?retryWrites=true&w=majority').then( result => {
+mongoose.connect('mongodb+srv://<username>:<password>@cluster0.t0nch.mongodb.net/<database>?retryWrites=true&w=majority').then( result => {
     
    
     app.listen(3000);
