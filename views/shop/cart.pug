@@ -6,9 +6,9 @@ block content
             div(class="w-screen my-4")
                 ul(class="flex flex-col items-center gap-1")
                     each product in products
-                        -   var product_id = product._id 
+                        -   var product_id = product.productId._id 
                         li(class="flex flex-row justify-between bg-gray-50 box-content my-4 mx-4 h-20 w-9/12 rounded-xl shadow-xl")
-                            h1(class="mx-6 py-6 text-xl lg:text-2xl font-mono font-bold") #{product.title}
+                            h1(class="mx-6 py-6 text-xl lg:text-2xl font-mono font-bold") #{product.productId.title}
                             h2(class="mx-6 py-6 text-xl lg:text-2xl font-mono font-bold") x#{product.quantity}
                             form(action="/cart-delete-item" method="POST")
                                 input(type="hidden" value= product_id name="productId")

@@ -9,10 +9,10 @@ block content
                         -   var order_id = order._id
                         li(class="w-11/12 my-8")
                             h1(class="mx-6 py-6 text-xl text-center lg:text-lg font-mono font-bold") Order-# #{order_id} 
-                            each orderItem in order.items
+                            each orderItem in order.products
                                     div(class="flex flex-row justify-between bg-gray-50 box-content my-6 ring-2 ring-teal-400 ring-offset-4 rounded-xl shadow-xl") 
-                                        h2(class="mx-6 py-6 text-md lg:text-md font-mono font-bold") #{orderItem.title}
-                                        h2(class="mx-6 py-6 text-md lg:text-md font-mono font-bold") $#{orderItem.price}
+                                        h2(class="mx-6 py-6 text-md lg:text-md font-mono font-bold") #{orderItem.product.title}
+                                        h2(class="mx-6 py-6 text-md lg:text-md font-mono font-bold") $#{orderItem.product.price}
                                         h2(class="mx-6 py-6 text-md lg:text-md font-mono font-bold") x#{orderItem.quantity}
                                     hr
                                     

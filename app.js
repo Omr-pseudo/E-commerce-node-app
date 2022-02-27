@@ -38,8 +38,8 @@ app.use(express.static(path.join(__dirname,'public')));
 
 app.use((req,res,next) => {
 
-    User.findById('6216288638ca06c62d717c4f').then( user => {
-        req.user = new User(user.name, user.email, user.cart, user._id);
+    User.findById("621b9724522142874834b81c").then( user => {
+        req.user = user;
         next();
     })
     .catch( err => {
@@ -61,7 +61,23 @@ app.use(errorController.get404);
 mongoose.connect('mongodb+srv://<username>:<password>@cluster0.t0nch.mongodb.net/<database>?retryWrites=true&w=majority').then( result => {
     
    
-    app.listen(3000);
+    User.findOne().then( user => {
+        if(!user){
+            const user = new User({
+
+                name: 'Omer',
+                email: 'test@test.com',
+                cart :{
+                    items: []
+                }
+            });
+
+            user.save();
+
+        }
+
+        app.listen(3000);
+    })
 })
 .catch( err => {
     console.log(err);
