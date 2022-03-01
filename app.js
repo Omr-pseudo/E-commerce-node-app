@@ -36,7 +36,7 @@ app.set('views', 'views');
 
 //--------------------------------------Setting up mongoDB session store------------------------------------------------
 
-const MongoDB_URI = 'mongodb+srv://Admin:myadminmongodb@cluster0.t0nch.mongodb.net/myShop?';
+const MongoDB_URI = 'mongodb+srv://<username>:<password>@cluster0.t0nch.mongodb.net/<database>?';
 
 const store = new mongoDB_sessionStore({
     uri: MongoDB_URI,
