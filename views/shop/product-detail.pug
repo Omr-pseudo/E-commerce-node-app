@@ -16,7 +16,8 @@ block content
                                 div(class="absolute mx-4 mt-36 lg:mt-48")
                                     h2(class="text-2xl font-mono font-bold") $#{product.price}
                                     p(class="text-xs tracking-tight md:text-sm font-light font-mono lg:tracking-normal") #{product.description}
-                                    div(class="flex justify-around")
-                                                            form(action="/cart" method="POST")
-                                                                                    input(type="hidden" name="productID" value=productID)
-                                                                                    button(class="bg-gray-700 h-8 w-16 lg:h-12 lg:w-24 mt-8 rounded-md drop-shadow-md lg:rounded-xl lg:drop-shadow-xl font-medium tracking-tight text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-gray-700 hover:ring-2 hover:ring-gray-400" type="submit") Add to Cart
+                                    if(isAuthenticated)
+                                        div(class="flex justify-around")
+                                                                form(action="/cart" method="POST")
+                                                                                        input(type="hidden" name="productID" value=productID)
+                                                                                        button(class="bg-gray-700 h-8 w-16 lg:h-12 lg:w-24 mt-8 rounded-md drop-shadow-md lg:rounded-xl lg:drop-shadow-xl font-medium tracking-tight text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-gray-700 hover:ring-2 hover:ring-gray-400" type="submit") Add to Cart
