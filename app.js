@@ -36,7 +36,7 @@ app.set('views', 'views');
 
 //--------------------------------------Setting up mongoDB session store------------------------------------------------
 
-const MongoDB_URI = 'mongodb+srv://<username>:<password>@cluster0.t0nch.mongodb.net/<database>?';
+const MongoDB_URI = 'mongodb+srv://Admin:myadminmongodb@cluster0.t0nch.mongodb.net/myShop?';
 
 const store = new mongoDB_sessionStore({
     uri: MongoDB_URI,
@@ -88,25 +88,7 @@ app.use(errorController.get404);
 //-------------------------------------App listening to Port------------------------------------------------------------
 
 mongoose.connect(MongoDB_URI).then( result => {
-    
-   
-    User.findOne().then( user => {
-        if(!user){
-            const user = new User({
-
-                name: 'Omer',
-                email: 'test@test.com',
-                cart :{
-                    items: []
-                }
-            });
-
-            user.save();
-
-        }
-
-        app.listen(3000);
-    })
+    app.listen(3000);
 })
 .catch( err => {
     console.log(err);
