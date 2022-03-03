@@ -12,6 +12,11 @@ const session = require('express-session');
 
 const mongoDB_sessionStore = require('connect-mongodb-session')(session);
 
+
+const csrf = require('csurf');
+
+const flash = require('connect-flash');
+
 //-------------------------------------------Routes---------------------------------------------------------------------
 
 const adminRoutes = require('./routes/admin');
@@ -34,6 +39,10 @@ app.set('view engine', 'pug');
 
 app.set('views', 'views');
 
+
+
+
+
 //--------------------------------------Setting up mongoDB session store------------------------------------------------
 
 const MongoDB_URI = 'mongodb+srv://<username>:<password>@cluster0.t0nch.mongodb.net/<database>?';
@@ -45,10 +54,13 @@ const store = new mongoDB_sessionStore({
 
 //--------------------------------------Setting up session--------------------------------------------------------------
 
+
+
 app.use(
 
     session(
-        {
+        { 
+            
             secret:"my secret key",
             resave: false,
             saveUninitialized: false,
@@ -57,11 +69,33 @@ app.use(
         )
     );
 
-//---------------------------------------Setting Routes-----------------------------------------------------------------
+//------------------------------------Initializing csrf-----------------------------------------------------------------
+
+
+
+const csrfProtection = csrf();
+
+
+//------------------------------------Setting up CSRF Token------------------------------------------------------------
 
 app.use(bodyParser.urlencoded({extended: false}));
 
+
+app.use(csrfProtection);
+
+
+//---------------------------------------Setting up flash memory-------------------------------------------------------
+
+app.use(flash());
+
+//---------------------------------------Setting Routes-----------------------------------------------------------------
+
+
+
 app.use(express.static(path.join(__dirname,'public')));
+
+
+
 
 
 app.use((req, res, next) => {
@@ -76,6 +110,13 @@ app.use((req, res, next) => {
       .catch(err => console.log(err));
   });
 
+app.use((req,res,next) => {
+
+    
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+  });
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);

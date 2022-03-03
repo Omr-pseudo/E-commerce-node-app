@@ -12,10 +12,12 @@ block content
                             h2(class="mx-6 py-6 text-xl lg:text-2xl font-mono font-bold") x#{product.quantity}
                             form(action="/cart-delete-item" method="POST")
                                 input(type="hidden" value= product_id name="productId")
+                                input(type="hidden" name="_csrf" value=csrfToken)
                                 button(class="bg-red-500 my-4 mx-6 h-8 w-16 lg:h-12 lg:w-24 rounded-md drop-shadow-md lg:rounded-xl lg:drop-shadow-xl font-medium tracking-normal text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-red-700 hover:ring-2 hover:ring-red-400" type="submit") Delete
             hr
             div(class="flex justify-around")
                                                             form(action="/orders" method="POST")
+                                                                                    input(type="hidden" name="_csrf" value=csrfToken)
                                                                                     button(class="bg-green-400 h-8 w-16 lg:h-12 lg:w-24 mt-8 rounded-md drop-shadow-md lg:rounded-xl lg:drop-shadow-xl font-medium tracking-wide text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-green-700 hover:ring-2 hover:ring-green-400" type="submit") Order
                 
         else   
