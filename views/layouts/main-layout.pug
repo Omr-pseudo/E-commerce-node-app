@@ -27,6 +27,7 @@ html(lang="en")
                             a(class="font-mono font-bold md:font-medium lg:font-semibold text-sm md:text-xl lg:text-2xl" href="/admin/products") ADMIN PRODUCTS
                         li(class="block h-full w-full text-center rounded-xl ring-2 ring-red-300 md:rounded-lg py-6 md:py-8 lg:py-10 hover:my-0 hover:rounded-xl hover:md:rounded-lg hover:py-6 hover:md:py-8 hover:md:py-10 hover:bg-red-400 hover:ring-red-500 hover:scale-105 hover:text-slate-50 hover:shadow-xl")
                             form(action="/logout" method="POST")
+                                input(type="hidden" name="_csrf" value=csrfToken)
                                 button(type="submit" class="font-mono font-bold md:font-medium lg:font-semibold text-sm md:text-xl lg:text-2xl") LOGOUT
                         
 

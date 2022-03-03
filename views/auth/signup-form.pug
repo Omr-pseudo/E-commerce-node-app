@@ -4,7 +4,7 @@ block content
     main(class="flex flex-col items-center mt-20")
                     div(class="block box-content bg-gray-50 h-80 xl:h-96 w-80 xl:w-80 shadow-xl rounded-xl")
                         form(action="/signup" method="POST")
-                            div(class="flex flex-col my-24 items-center")
+                            div(class="flex flex-col mt-24 items-center")
                                 div(class="flex flex-col gap-24")
                                     div(class="flex flex-col gap-6")
                                         div(class="flex flex-row items-center gap-10")
@@ -21,8 +21,12 @@ block content
                                                             input(class="ring-2 ring-gray-300 rounded-md pl-4 -ml-3 text-mono shadow-lg font-medium" placeholder="type here..." type="password" name="confirm_password" id="confirm_password")
                                             
 
-
+                                    input(type="hidden" name="_csrf" value=csrfToken)
                                     button(class="font-mono font-semibold mx-6" type="submit")
                                         span(class="block box-content rounded-md ring-2 hover:ring-teal-500 bg-gray-200 shadow-lg h-ful w-full px-1 hover:scale-105 hover:bg-gray-700 hover:text-slate-50 hover:shadow-xl") Signup
-                                    
+                            
+                        if errorMessage
+                                div(class="block box-content text-center bg-red-200 h-9/12 w-11/12 shadow-xl mt-4 mx-4 rounded-sm ring-2 ring-red-400")
+                                    p(class="text-xs md:text-sm font-mono text-gray-800") #{errorMessage}
+
                                 

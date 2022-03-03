@@ -23,10 +23,8 @@ block content
                                     if(isAuthenticated)
                                         include ../layouts/cat-form.pug
                                     else 
-                                        - var productID = product._id 
+                                        
                                          form(action="/login" method="GET")
-                                          
-                                                        input(type="hidden" name="productID" value=productID)
                                                         button(class="bg-gray-700 h-8 w-16 lg:h-12 lg:w-24 mt-64 lg:mt-80 rounded-md drop-shadow-md lg:rounded-xl lg:drop-shadow-xl font-medium tracking-tight text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-gray-700 hover:ring-2 hover:ring-gray-400" type="submit") Add to Cart
                             
                                         
