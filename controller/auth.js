@@ -2,6 +2,24 @@ const User = require('../model/user');
 
 const bcrypt = require('bcryptjs');
 
+const crypto = require('crypto');
+
+const nodemailer = require('nodemailer');
+
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+const user = require('../model/user');
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+
+    auth: {
+      api_key: "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"
+    }
+  })
+);
+
+
+
 exports.getLogin = (req,res,next) => {
 
     let message = req.flash("error");
@@ -34,6 +52,8 @@ exports.postLogin = (req,res,next) => {
     if(!user){
 
       req.flash("error", "Invalid email or password.");
+
+      return res.redirect('/login');
     }
 
     return bcrypt.compare(password, user.password).then( matched => {
@@ -137,6 +157,166 @@ exports.postSignup = (req, res, next) => {
   })
 }
 
+exports.getReset = (req, res, next) => {
+
+  let message = req.flash("error");
+
+  if(message.length > 0){
+
+    message = message[0];
+  }
+
+  else{
+
+    message = null;
+  }
+
+  res.render("auth/reset", {
+     myTitle: 'Reset Passowrd', 
+     path:"/login",
+     errorMessage: message
+  })
+  
+}
+
+exports.postReset = (req, res, next) => {
+
+  crypto.randomBytes(32, (err, buffer) => {
+
+    if(err){
+
+      console.log(err);
+      return res.redirect('/reset');
+    }
+
+    const token = buffer.toString('hex');
+
+    const email = req.body.email;
+
+    User.findOne({email: email}).then( user => {
+
+        if(!user){
+          req.flash("error", "User does not exist with this email.");
+          return res.redirect('/reset');
+        }
+
+        user.resetToken = token;
+        user.resetTokenExpiration = Date.now() + 3600000;
+        return user.save();
+
+    }).then( result => {
+
+      req.flash("error","Checkout your Inbox");
+      
+      //Included this to display the user that email has been sent
+
+      let message = req.flash("error");
+
+    if(message.length > 0){
+
+      message = message[0];
+    }
+
+    else {
+
+      message = null;
+    }
+
+
+    res.render('auth/login-form', { 
+        myTitle: 'Login', 
+         path:"/login",
+         errorMessage: message
+        });
+
+      //transporter sending email from sendgrid account
+
+      transporter.sendMail({
+        to: req.body.email,
+        from: 'FA19-BCS-066@isbstudent.comsats.edu.pk',
+        subject: 'Password reset',
+        html: `
+          <p>You requested a password reset</p>
+          <p>Click this <a href="http://localhost:3000/new-password/${token}">link</a> to set a new password.</p>
+        `
+      });
+    })
+    
+    .catch( err => {
+
+      console.log(err);
+      res.redirect('/reset');
+    });
+
+
+  });
+}
+
+
+exports.getNewPassword = (req,res,next) => {
+
+  const token = req.params.token;
+
+  User.findOne({resetToken:token, resetTokenExpiration: {$gt: Date.now()}})
+
+  .then(
+    user => {
+    let message = req.flash('error');
+    if (message.length > 0) {
+      message = message[0];
+    } else {
+      message = null;
+    }
+    res.render('auth/new-password-form', {
+      path: '/login',
+      myTitle: 'New Password',
+      errorMessage: message,
+      userId: user._id.toString(),
+      passwordToken: token
+    });
+  }).catch( err => {
+
+    res.redirect('/login');
+  });
+}
+
+
+exports.postNewPassword = (req, res, next) => {
+
+    const newPassword = req.body.password;
+    const userId = req.body.userId;
+    const passwordToken = req.body.passwordToken;
+
+    let reset_user;
+
+    User.findOne({
+      resetToken: passwordToken,
+      resetTokenExpiration: {$gt: Date.now()},
+      _id: userId
+    })
+
+    .then( user => {
+
+      reset_user = user;
+      return bcrypt.hash(newPassword, 12)
+    })
+    .then( hashedPassword => {
+
+      reset_user.password = hashedPassword;
+      reset_user.resetToken = undefined;
+      reset_user.resetTokenExpiration = undefined;
+      
+      return reset_user.save();
+    })
+    .then( result => {
+
+      res.redirect('/login');
+    })
+    .catch( err => {
+
+      console.log(err);
+    });
+}
 
 
 //Setting a cookie
