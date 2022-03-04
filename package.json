@@ -23,12 +23,15 @@
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^3.1.1",
     "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
     "csurf": "^1.11.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "express-handlebars": "^6.0.2",
     "express-session": "^1.17.2",
     "mongoose": "^6.2.3",
+    "nodemailer": "^6.7.2",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "pug": "^3.0.2"
   }
 }
