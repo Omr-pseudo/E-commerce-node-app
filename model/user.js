@@ -11,6 +11,8 @@ const userSchema = new Schema({
       type: String,
       required: true
     },
+    resetToken: String,
+    resetTokenExpiration: Date,
     cart: { //cart object
         items: [ //items array
             { //cart.items[index] stores productId and quantity Objects
