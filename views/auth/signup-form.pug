@@ -9,16 +9,16 @@ block content
                                     div(class="flex flex-col gap-6")
                                         div(class="flex flex-row items-center gap-10")
                                                         label(class="pl-4 text-mono font-medium" for="email") Email
-                                                        input(class="ring-2 ring-gray-300 rounded-md pl-4 text-mono shadow-lg font-medium" placeholder="type here..." type="email" name="email" id="email")
+                                                        input(class="ring-2 ring-gray-300 rounded-md pl-4 text-mono shadow-lg font-medium" placeholder="type here..." type="email" name="email" id="email" value=oldInput.email)
                                                         
                                         div(class="flex flex-row items-center gap-6")
                                                         label(class="pl-4 text-mono font-medium" for="password") Password
-                                                        input(class="ring-2 ring-gray-300 rounded-md pl-4 -ml-3 text-mono shadow-lg font-medium" placeholder="type here..." type="password" name="password" id="password")
+                                                        input(class="ring-2 ring-gray-300 rounded-md pl-4 -ml-3 text-mono shadow-lg font-medium" placeholder="type here..." type="password" name="password" id="password" value=oldInput.password)
 
                                         div(class="flex flex-row items-center")
                                                         label(class="pl-4 text-mono font-medium" for="confirm_password") Confirm Password
                                                         div(class="mx-4")
-                                                            input(class="ring-2 ring-gray-300 rounded-md pl-4 -ml-3 text-mono shadow-lg font-medium" placeholder="type here..." type="password" name="confirm_password" id="confirm_password")
+                                                            input(class="ring-2 ring-gray-300 rounded-md pl-4 -ml-3 text-mono shadow-lg font-medium" placeholder="type here..." type="password" name="confirm_password" id="confirm_password" value=oldInput.confirmPassword)
                                             
 
                                     input(type="hidden" name="_csrf" value=csrfToken)
