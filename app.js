@@ -96,6 +96,15 @@ app.use(express.static(path.join(__dirname,'public')));
 
 
 
+app.use((req,res,next) => {
+
+    
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
+
 
 
 app.use((req, res, next) => {
@@ -104,19 +113,17 @@ app.use((req, res, next) => {
     }
     User.findById(req.session.user._id)
       .then(user => {
+        if(!user){
+            return next();
+        }
         req.user = user;
         next();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        next(new Error(err));
+      });
   });
 
-app.use((req,res,next) => {
-
-    
-    res.locals.isAuthenticated = req.session.isLoggedIn;
-    res.locals.csrfToken = req.csrfToken();
-    next();
-  });
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
@@ -124,7 +131,14 @@ app.use(authRoutes);
 
 app.use(errorController.get404);
 
+app.use((err,req,res,next) => {
 
+  res.status(500).render('500page', {
+    pageTitle: 'Error!',
+    path: '/500',
+    isAuthenticated: req.session.isLoggedIn
+  });
+})
 
 //-------------------------------------App listening to Port------------------------------------------------------------
 
