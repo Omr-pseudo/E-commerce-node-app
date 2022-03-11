@@ -11,8 +11,8 @@ block content
                                   - var title = product.title
                                   - var productID = product._id  
                                                                                     
-                                    
-                                    img(class="w-2/3 h-full lg:w-3/4 lg:h-3/4 rounded-md shadow-lg mx-8 my-10" src= url, alt= title)
+                                   
+                                    img(class="w-2/3 h-full lg:w-3/4 lg:h-3/4 rounded-md shadow-lg mx-8 my-10" src= "/"+url, alt= title)
                                 div(class="absolute mx-4 mt-36 lg:mt-48")
                                     h2(class="text-2xl font-mono font-bold") $#{product.price}
                                     p(class="text-xs tracking-tight md:text-sm font-light font-mono lg:tracking-normal") #{product.description}

@@ -12,7 +12,8 @@ block content
                                 div(class="absolute py-4")
                                     - var title = product.title;
                                     - var url = product.imageURL;
-                                    img(class="w-2/3 h-2/3 lg:w-3/4 lg:h-3/4 rounded-md shadow-lg mx-8 my-10" src=url, alt=title)
+                        
+                                    img(class="w-2/3 h-2/3 lg:w-3/4 lg:h-3/4 rounded-md shadow-lg mx-8 my-10" src="/"+url, alt=title)
                                 div(class="absolute mx-4 my-36 lg:my-48 w-10/12")
                                     h2(class="text-sm md:text-lg mt-8 md:mt-4 font-mono font-bold") $#{product.price}
                                     p(class="text-xs md:text-sm truncate md:mt-4 font-light font-mono tracking-normal") #{product.description}

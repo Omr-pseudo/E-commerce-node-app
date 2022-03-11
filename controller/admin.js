@@ -1,6 +1,7 @@
 
 const {validationResult} = require('express-validator');
 
+const fileDeletion = require('../utilities/file-unlink');
 
 
 //Product model
@@ -65,22 +66,48 @@ exports.getEditProducts = (req, res, next) => {
         hasError: false,
         errorMessage: null,
 
-    }).catch(err => {
-        const error = new Error(err);
-        error.httpStatusCode = 500;
-        return next(error);
-      });
+    })
     
-});
+}).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
 }
 
 
 exports.postAddProducts = (req, res, next) => {
 
     const title = req.body.title;
-    const imageURL = req.body.imageURL;
+    const image = req.file;
     const price = req.body.price;
     const description = req.body.description;
+
+    
+    if(!image){
+
+        return res.status(422).render("admin/edit-products", 
+        
+        {myTitle:"Add Products", 
+        
+        path:"/admin/add-products", 
+        
+        editing: false, 
+        
+        hasError:true, 
+        
+        errorMessage:"Please select a valid image",
+        
+        product: {
+          title: title,
+          price: price,
+          description: description
+        }
+    
+    });
+    }
+
+    const imageURL = image.path;
 
     const errors = validationResult(req);
 
@@ -137,10 +164,9 @@ exports.postEditedProducts = (req, res, next) => {
 
     const id = req.body.id;
     const updatedtitle = req.body.title;
-    const updatedimageURL = req.body.imageURL;
+    const updatedimage = req.file;
     const updatedprice = req.body.price;
     const updateddescription = req.body.description;
-
     
     const errors = validationResult(req);
 
@@ -154,7 +180,6 @@ exports.postEditedProducts = (req, res, next) => {
       hasError: true,
       product: {
         title: updatedtitle,
-        imageURL: updatedimageURL,
         price: updatedprice,
         description: updateddescription,
         _id: id
@@ -175,7 +200,13 @@ exports.postEditedProducts = (req, res, next) => {
         product.title = updatedtitle;
         product.price = updatedprice;
         product.description = updateddescription;
-        product.imageURL = updatedimageURL;
+        if( updatedimage){
+
+            fileDeletion.unlinkOnDelete(product.imageURL);
+
+            product.imageURL = updatedimage.path;
+        }
+        
          
         return product.save().then( result => {
             console.log("[UPDATED]: PRODUCT");
@@ -196,7 +227,20 @@ exports.postEditedProducts = (req, res, next) => {
 exports.postDeleteProduct = (req, res, next) => {
 
     const product_id = req.body.prod_id;
-    Product.deleteOne({_id:product_id, userId: req.user._id})
+
+    Product.findById(product_id)
+    .then( product =>{ 
+
+        if(!product){
+
+            return next(new Error("Product does not exist"));
+        }
+
+        fileDeletion.unlinkOnDelete(product.imageURL);
+
+        return Product.deleteOne({_id:product_id, userId: req.user._id});
+    })
+    
     .then( result => {
         res.redirect('/admin/products');
         console.log("[DELETED]: PRODUCT")

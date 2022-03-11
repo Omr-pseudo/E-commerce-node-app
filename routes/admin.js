@@ -20,13 +20,7 @@ router.post('/add-products',
     .isString()
     .withMessage("A title should be atleast 4 characters long.")
     .isLength({min:4})
-    .trim()
-    
-    ,
-    body('imageURL')
-    .isURL()
-    .withMessage("Please enter a valid URL.")
-    ,
+    .trim(),
     body('price')
     .isFloat()
     .withMessage("Please enter a valid price")
@@ -48,11 +42,6 @@ router.post('/edit-products',
     .isLength({min:4})
     .trim()
     .withMessage("A title should be atleast 4 characters long.")
-    
-    ,
-    body('imageURL')
-    .isURL()
-    .withMessage("Please enter a valid URL.")
     ,
     body('price')
     .isFloat()
