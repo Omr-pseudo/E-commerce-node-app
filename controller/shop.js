@@ -51,13 +51,13 @@ exports.getProductID = (req, res, next) => {
             product: product,
             myTitle: product.title,
             path: "/products"
-    }).catch(err => {
-        const error = new Error(err);
-        error.httpStatusCode = 500;
-        return next(error);
-      });
+    })
     
-});
+}).catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
     
 }
 
