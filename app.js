@@ -17,6 +17,9 @@ const csrf = require('csurf');
 
 const flash = require('connect-flash');
 
+const multer = require('multer');
+
+
 //-------------------------------------------Routes---------------------------------------------------------------------
 
 const adminRoutes = require('./routes/admin');
@@ -27,6 +30,7 @@ const authRoutes = require('./routes/auth');
 //--------------------------------------Controllers---------------------------------------------------------------------
 
 const errorController = require('./controller/error');
+const { Console } = require('console');
 
 //--------------------------------------Initializing App----------------------------------------------------------------
 
@@ -69,6 +73,42 @@ app.use(
         )
     );
 
+//--------------------------------------Setting Multer-----------------------------------------------------------------
+
+const fileStorage = multer.diskStorage(
+  {
+    destination:(req,file,cb) => {
+      
+  cb(null, 'images');
+
+},
+
+filename: (req, file, cb) => {
+
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+}});
+
+
+
+const fileFilter = (req,file,cb) => {
+
+  if(
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ){
+
+    cb(null,true);
+  }
+
+  else{
+
+    cb(null,false);
+  }
+}
+
+
+
 //------------------------------------Initializing csrf-----------------------------------------------------------------
 
 
@@ -80,6 +120,15 @@ const csrfProtection = csrf();
 
 app.use(bodyParser.urlencoded({extended: false}));
 
+app.use(
+  multer(
+    {
+      fileFilter: fileFilter,
+      storage: fileStorage     
+    })
+
+.single('image'));
+
 
 app.use(csrfProtection);
 
@@ -90,11 +139,11 @@ app.use(flash());
 
 //---------------------------------------Setting Routes-----------------------------------------------------------------
 
-
+//--------------------------------------Serving static folders----------------------------------------------------------
 
 app.use(express.static(path.join(__dirname,'public')));
 
-
+app.use('/images', express.static(path.join(__dirname,'images')));
 
 app.use((req,res,next) => {
 
