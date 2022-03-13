@@ -27,8 +27,21 @@ block content
                                          form(action="/login" method="GET")
                                                         button(class="bg-gray-700 h-8 w-16 lg:h-12 lg:w-24 mt-64 lg:mt-80 rounded-md drop-shadow-md lg:rounded-xl lg:drop-shadow-xl font-medium tracking-tight text-slate-50 text-xs lg:text-lg hover:scale-110 hover:bg-slate-50 hover:text-gray-700 hover:ring-2 hover:ring-gray-400" type="submit") Add to Cart
                             
-                                        
-                                        
-                                   
+                    section(class="flex flex-row justify-center mt-28") 
+                        div(class="flex flex-row gap-8")
+                            if currentPage !== 1 && previousPage !== 1
+                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=1") 1
+                            
+                            if hasPreviousPage
+                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=2") #{previousPage}             
+                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=2") #{currentPage}
+
+                            if hasNextPage
+                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=2") #{nextPage}             
+
+                            if lastPage !== currentPage && nextPage !== lastPage
+                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=2") #{lastPage}             
+                              
+
             else
                 h1 No Products
