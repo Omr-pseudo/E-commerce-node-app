@@ -31,18 +31,20 @@ block content
                     section(class="flex flex-row justify-center mt-28") 
                         div(class="flex flex-row gap-8")
                             if currentPage !== 1 && previousPage !== 1
-                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=1") 1
+                                    a(class="box-content h-8 w-8 text-center border-2 rounded-full text-emerald-700 text-2xl font-bold border-emerald-200 rounded-md hover:scale-110 hover:bg-emerald-700 hover:text-gray-50 hover:border-emerald-700" href="?page=1") 1
                             
                             if hasPreviousPage
-                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=2") #{previousPage}             
-                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=2") #{currentPage}
+                                     
+                                    a(class="box-content h-8 w-8 text-center border-2 rounded-full text-emerald-700 text-2xl font-bold border-emerald-200 rounded-md hover:scale-110 hover:bg-emerald-700 hover:text-gray-50 hover:border-emerald-700" href="?page="+previousPage) #{previousPage}             
+                                    a(class="box-content h-8 w-8 text-center border-2 rounded-full text-emerald-700 text-2xl font-bold border-emerald-200 rounded-md hover:scale-110 hover:bg-emerald-700 hover:text-gray-50 hover:border-emerald-700" href="?page="+page) #{page}
 
                             if hasNextPage
-                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=2") #{nextPage}             
+                                    a(class="box-content h-8 w-8 text-center border-2 rounded-full text-emerald-700 text-2xl font-bold border-emerald-200 rounded-md hover:scale-110 hover:bg-emerald-700 hover:text-gray-50 hover:border-emerald-700" href="?page="+nextPage) #{nextPage}             
 
-                            if lastPage !== currentPage && nextPage !== lastPage
-                                    a(class="box-content h-8 w-4 text-center border-2 text-emerald-700 text-2xl font-bold font-mono border-emerald-200 rounded-md hover:scale-125 active:scale-125" href="?page=2") #{lastPage}             
+                            if lastPage !== page && nextPage !== lastPage
+                                    a(class="box-content h-8 w-8 text-center border-2 rounded-full text-emerald-700 text-2xl font-bold border-emerald-200 rounded-md hover:scale-110 hover:bg-emerald-700 hover:text-gray-50 hover:border-emerald-700" href="?page="+lastPage) #{lastPage}             
                               
+
             
 
             
