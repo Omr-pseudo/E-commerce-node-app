@@ -60,7 +60,7 @@ exports.getShopProducts = (req, res, next) => {
         res.render('shop/product-list', { prods: products,
             myTitle: 'Products', 
              path:"/products",
-             currentPage: page,
+             page: page,
              hasNextPage: MAX_ITEMS_PER_PAGE * page < totalItems,
              hasPreviousPage: page > 1,
              nextPage: page + 1,
